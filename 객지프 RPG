@@ -170,7 +170,7 @@ public class RPG {
 			monster_hp = 2000;
 			monster_mp = 0;
 			monster_level = 5;
-			monster_power = 1000;
+			monster_power = 100;
 			monster_defense = 20;
 			monster_money = 30;
 			monster_experience = 50;
