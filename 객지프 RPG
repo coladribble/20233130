@@ -67,19 +67,16 @@ public class RPG {
 			System.out.printf("%s가 죽었습니다.", monster_name);
 			System.out.println();
 			if (hero_experience >= hero_level*80) {
-				System.out.printf("%s의 레벨이 %d이 되었습니다.", hero_name, hero_level+1);
-				System.out.println();
-				int d = hero_money;
-				hero_money += hero_level*50;
 				hero_level+=1;
-				System.out.printf("레벨업 기념으로 돈이 %d원 증가하여 %d원이 되었습니다.", d, hero_money);
+				System.out.printf("%s의 레벨이 %d이 되었습니다.", hero_name, hero_level);
+				System.out.println();
+				hero_money += hero_level*50;
+				System.out.printf("레벨업 기념으로 돈이 %d원 증가하여 %d원이 되었습니다.", hero_level*50, hero_money);
 				System.out.println();
 				hero_experience = 0;
 			}
 			break;
 		}
-	
-		
 		System.out.printf("%s의 공격입니다.", monster_name);
 		System.out.println();
 		System.out.printf("데미지는 %d 입니다.", monster_attack());
@@ -173,7 +170,7 @@ public class RPG {
 			monster_hp = 2000;
 			monster_mp = 0;
 			monster_level = 5;
-			monster_power = 100;
+			monster_power = 1000;
 			monster_defense = 20;
 			monster_money = 30;
 			monster_experience = 50;
@@ -182,7 +179,7 @@ public class RPG {
 			System.out.println("잘못된 선택입니다. 다시 선택해 주세요.");
 		}
 		}
-		while (true) {
+		out: while (true) {
 		System.out.printf("%s의 공격입니다", hero_name);
 		System.out.println();
 		while (true) {
@@ -199,16 +196,15 @@ public class RPG {
 			System.out.printf("%s가 죽었습니다.", monster_name);
 			System.out.println();
 			if (hero_experience >= hero_level*80) {
-				System.out.printf("%s의 레벨이 %d이 되었습니다.", hero_name, hero_level+1);
-				System.out.println();
-				int d = hero_money;
-				hero_money += hero_level*50;
 				hero_level+=1;
-				System.out.printf("레벨업 기념으로 돈이 %d원 증가하여 %d원이 되었습니다.", d, hero_money);
+				System.out.printf("%s의 레벨이 %d이 되었습니다.", hero_name, hero_level);
+				System.out.println();
+				hero_money += hero_level*50;
+				System.out.printf("레벨업 기념으로 돈이 %d원 증가하여 %d원이 되었습니다.", hero_level*50, hero_money);
 				System.out.println();
 				hero_experience = 0;
 			}
-			break;
+			break out;
 		}
 		System.out.printf("%s의 공격입니다.", monster_name);
 		System.out.println();
@@ -219,13 +215,14 @@ public class RPG {
 			hero_hp = 1;
 			System.out.printf("%s가 부활합니다", hero_name);
 			System.out.println();
-			break;
+			break out;
+			
 		}
-		break;
+		
 		} else {
 			System.out.println("잘못된 선택입니다. 다시 선택해 주세요.");
 		}
-		} break;
+		}
 		}
 		} else {
 			System.out.println("잘못된 선택입니다. 다시 선택해 주세요.");
@@ -247,7 +244,7 @@ public class RPG {
 		if (hero_defense >= monster_power)
 			return 0;
 		else
-			return monster_level*10 + monster_power*30;
+			return monster_power;
 	}
 	static void monster_attacked(int sum) {
 		sum = monster_power;
