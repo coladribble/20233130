@@ -1,0 +1,177 @@
+package RPG;
+
+import java.util.Scanner;
+
+public class RPG {
+	static int hero_level=1, hero_power=15, hero_hp=80, hero_defense=25, hero_mp=0, hero_experience=0, hero_money=0, hero_skill;
+	static int monster_hp, monster_defense, monster_power, monster_mp, monster_level, monster_experience, monster_money;
+	static String hero_name, monster_name;
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		System.out.print("영웅의 이름을 입력하세요. : ");
+		hero_name = in.nextLine();
+		System.out.println("이름이 입력되었습니다.");
+		System.out.println("게임에 입장하였습니다.");
+		while (true) {
+		System.out.println("*******************");
+		System.out.printf("현제 Hero의 이름 : %s", hero_name);
+		System.out.println();
+		System.out.printf("현제 %s의 레벨 : %d", hero_name, hero_level);
+		System.out.println();
+		System.out.printf("현제 %s의 힘 : %d", hero_name, hero_power);
+		System.out.println();
+		System.out.printf("현제 %s의 방어력 : %d", hero_name, hero_defense);
+		System.out.println();
+		System.out.printf("현제 %s의 HP : %d", hero_name, hero_hp);
+		System.out.println();
+		System.out.printf("현제 %s의 MP : %d", hero_name, hero_mp);
+		System.out.println();
+		System.out.printf("현제 %s의 경험치 : %d", hero_name, hero_experience);
+		System.out.println();
+		System.out.printf("현제 %s의 돈 : %d", hero_name, hero_money);
+		System.out.println();
+		System.out.println("*******************");
+		System.out.println("1. 사냥터");	
+		System.out.println("2. 포션 상점");
+		System.out.print("입장할 장소를 입력하세요. : ");
+		int a = in.nextInt();
+		if (a == 2) {
+			System.out.println("포션 상점에 입장했습니다.");
+			System.out.println("1. 힘 증강 포션 (30원)");
+			System.out.println("2. 방어력 증강 포션 (30원)");
+			System.out.println("3. 경험치 증강 포션 (100원)");
+			System.out.println("4. HP 증강 포션 (10원)");
+			System.out.println("5. MP 증강 포션 (10원)");
+			System.out.print("원하시는 물건을 입력하세요. : ");
+			int b = in.nextInt();
+			System.out.println("포션 상점에서 물건을 구매 시도하는 중입니다.");
+			if (b == 1 && hero_money < 30) 
+				System.out.println("돈이 부족해 구입하지 못했습니다.");
+			else if (b == 2 && hero_money < 30)
+				System.out.println("돈이 부족해 구입하지 못했습니다.");
+			else if (b == 3 && hero_money < 100)
+				System.out.println("돈이 부족해 구입하지 못했습니다.");
+			else if (b == 4 && hero_money < 10)
+				System.out.println("돈이 부족해 구입하지 못했습니다.");
+			else if (b == 5 && hero_money < 10)
+				System.out.println("돈이 부족해 구입하지 못했습니다.");
+			else 
+				System.out.println("구입이 완료되었습니다.");
+			System.out.printf("%d원 남았습니다.",potionStore_show(hero_money,b));
+			System.out.println();
+		} else {
+		System.out.println("1. 너구리");
+		System.out.println("2. 살쾡이");
+		System.out.print("전투할 상대를 입력하세요. : ");
+		int c = in.nextInt();
+		if (c==1) {
+			System.out.println("너구리와의 전투가 시작합니다.");
+			monster_name = "너구리";
+			monster_hp = 100;
+			monster_mp = 0;
+			monster_level = 1;
+			monster_power = 20;
+			monster_defense = 5;
+			monster_money = 10;
+			monster_experience = 10;
+		} else {
+			System.out.println("살쾡이와의 전투가 시작합니다");
+			monster_name = "살쾡이";
+			monster_hp = 2000;
+			monster_mp = 0;
+			monster_level = 5;
+			monster_power = 100;
+			monster_defense = 20;
+			monster_money = 30;
+			monster_experience = 50;
+		}
+		while (true) {
+		System.out.printf("%s의 공격입니다", hero_name);
+		System.out.println();
+		System.out.println("1. 쓰러스트");
+		System.out.print("공격 번호를 입력하세요 : ");
+		hero_skill = in.nextInt();
+		System.out.printf("데미지는 %d 입니다.", hero_attack());
+		System.out.println();
+		hero_attacked(0);
+		if (monster_hp <= 0) {
+			hero_experience += monster_experience;
+			hero_money += monster_money;
+			System.out.printf("%s가 죽었습니다.", monster_name);
+			System.out.println();
+			if (hero_experience >= hero_level*80) {
+				System.out.printf("%s의 레벨이 %d이 되었습니다.", hero_name, hero_level+1);
+				System.out.println();
+				int d = hero_money;
+				hero_money += hero_level*50;
+				hero_level+=1;
+				System.out.printf("레벨업 기념으로 돈이 %d원 증가하여 %d원이 되었습니다.", d, hero_money);
+				System.out.println();
+				hero_experience = 0;
+			}
+			break;
+		}
+		System.out.printf("%s의 공격입니다.", monster_name);
+		System.out.println();
+		System.out.printf("데미지는 %d 입니다.", monster_attack());
+		System.out.println();
+		monster_attacked(0);
+		if (hero_hp <= 0) {
+			hero_hp = 0;
+			System.out.printf("%s가 부활합니다", hero_name);
+			System.out.println();
+			break;
+		}
+		}
+		}
+		}
+	}
+	static int hero_attack() {
+		if (hero_level*10 + hero_power*30 <= monster_defense)
+			return 0;
+		else
+			return hero_level*10 + hero_power*30;
+	}
+	static void hero_attacked(int sum) {
+		sum = hero_level*10 + hero_power*30;
+		monster_hp = monster_hp + monster_defense - sum;
+	}
+	static int monster_attack() {
+		if (hero_defense >= monster_power)
+			return 0;
+		else
+			return monster_level*10 + monster_power*30;
+	}
+	static void monster_attacked(int sum) {
+		sum = monster_power;
+		hero_hp = hero_hp + hero_defense -sum;
+	}
+	static int potionStore_show(int money, int num) {
+		if (num == 1) {
+			if (hero_money < 30) {
+				return hero_money;
+			} hero_power += 3;
+			return hero_money - 30;
+		} else if (num == 2) {
+			if (hero_money < 30) {
+				return hero_money;
+			} hero_defense += 3;
+			return hero_money - 30;
+		} else if (num == 3) {
+			if (hero_money < 100) {
+				return hero_money;
+			} hero_experience += 50;
+			return hero_money - 100;
+		} else if (num == 4) {
+			if (hero_money < 10) {
+				return hero_money;
+			} hero_hp += 50;
+			return hero_money - 10;
+		} else {
+			if (hero_money < 10) {
+				return hero_money;
+			} hero_mp += 50;
+			return hero_money - 10;
+		}
+	}
+}
